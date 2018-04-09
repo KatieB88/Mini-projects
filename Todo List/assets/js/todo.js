@@ -15,7 +15,7 @@
 
 //AN ALTERNATIVE!
 
-$("ul").on("click", "li", function(){  //need .on rather than .click for this to be applied to new lis added to the page by the user- and to change to what I have here, selecting the ul and then adding li after the click
+$("ul").on("click", "li", function(){  //need .on rather than .click for this to be applied to new lis added to the page by the user- and to change to what I have here, selecting the ul and then adding li after the click. Need ul to be selected as that is already on the page when it loads, so we can then select new lis within it that are added!
 	$(this).toggleClass("completed");
 });
 
@@ -23,7 +23,7 @@ $("ul").on("click", "span", function(event){
 	$(this).parent().fadeOut(300, function(){
 		$(this).remove();
 	});
-	event.stopPropagation(); //this is a jQuery method that will stop the li click event listener from firing!
+	event.stopPropagation(); //this is a jQuery method that will stop the li click event listener (above) from firing!
 });
 
 $("input[type = 'text']").keypress(function(event){
