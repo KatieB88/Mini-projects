@@ -17,20 +17,28 @@
 	
 
 	var circles = [];
+
 	function onKeyDown(event) {
-		if(event.key === "a"){
-			sound1.play();
-		}
-		if(event.key === "s"){
-			sound2.play();
-		}
-		
 		var maxPoint = new Point(view.size.width, view.size.height);
 		var randPoint = Point.random(); //gives a random number between 0 and 1
 		var point = maxPoint * randPoint;
 		var newCircle = new Path.Circle(point, 500);
+		
+		if(event.key === "s"){
+			sound2.play();
+			newCircle.fillColor = "#16a085";
+		}
+
+		else if(event.key === "a"){
+			sound1.play();
+			newCircle.fillColor = "blue";
+		}
+		
+		else{
 		newCircle.fillColor = "orange";
+		}	
 		circles.push(newCircle);
+
 }
  
 	function onFrame(event){
