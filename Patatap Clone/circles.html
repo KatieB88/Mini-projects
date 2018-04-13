@@ -7,39 +7,45 @@
 	<link rel="stylesheet" type="text/css" href="circles.css">
 	<script type="text/paperscript" canvas="myCanvas">
 	
-	var sound1 = new Howl({
-	src: ['sounds/bubbles.mp3']
-	});
+	var keyData = {
+		a: {
+		color: "purple",
+		sound: new Howl({
+			src: ['sounds/bubbles.mp3'],
 
-	var sound2 = new Howl({
-	src: ['sounds/clay.mp3']
-	});
+		})
+	},
+		s: {
+		color: "green",
+		sound: new Howl({
+			src: ['sounds/clay.mp3'],
+		})
+	},
+		d: {
+		color: "red",
+		sound: new Howl({
+			src: ['sounds/confetti.mp3'],
+		})
+	}
+	}
 	
 
 	var circles = [];
 
 	function onKeyDown(event) {
-		var maxPoint = new Point(view.size.width, view.size.height);
+
+		var maxPoint = new Point(view.size.width, view.size.height); //checking the size of the view port 
+
 		var randPoint = Point.random(); //gives a random number between 0 and 1
-		var point = maxPoint * randPoint;
-		var newCircle = new Path.Circle(point, 500);
-		
-		if(event.key === "s"){
-			sound2.play();
-			newCircle.fillColor = "#16a085";
-		}
 
-		else if(event.key === "a"){
-			sound1.play();
-			newCircle.fillColor = "blue";
-		}
-		
-		else{
-		newCircle.fillColor = "orange";
-		}	
-		circles.push(newCircle);
+		var point = maxPoint * randPoint; //ensures a random point is chosen within the viewport
 
-}
+		var newCircle = new Path.Circle(point, 500); //creates a new circle at our random point with a radius of 500
+
+		newCircle.fillColor = keyData[event.key].color // access the correct colour in the object for the keypress, eg keyData["a"].color is "purple"
+
+		circles.push(newCircle); //add the new circle to the array so that onFrame function can change the colour and fade it out
+	}
  
 	function onFrame(event){
 			for(var i = 0; i < circles.length; i++){
