@@ -1,0 +1,195 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+/*Basic reset using universal selector- makes sure everything is consistent across browsers and allows us to start clean*/
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /*borders and paddings are no longer added to height/width of an element, which is better!*/
+}
+
+body{
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7; /*line height is 1.7x bigger than predefined line height*/
+  color: #777;
+  padding: 30px; /*gives the white border around the page, I think margin also seems to work here?*/
+}
+
+.header{ /*the part with the yoga image and green overlay*/
+  height: 95vh; /*we want the height of the element to be 95% of the viewport*/
+  background-image: linear-gradient(
+    to right bottom, /*adds a linear gradient on top going left top to right bottom...*/
+    rgba(126, 213, 111, 0.8), /*...specifies the colours and opacity...*/
+    rgba(40, 180, 141, 0.8)),
+    url(../img/hero.jpg);  /*...and the. url image underneath it peaking through*/
+  background-size: cover;
+  background-position: top; /*background-position: top ensure the top of the background always stays flush with the top of the container, it doesn't disappear when you resize the window*/
+  position: relative; /*this is needed so that the absolute positioning of the logo box will be relative to the header (its parent element)*/
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /*Clipping a bit of the header off to make it look cool- you're specifying the points you want to show, starting from the top left corner and working clockwise. The first point is 0 0 because those are its co-ordinates in relation to the first point (top-left)*/
+}/*(contd) the second point is specified as 100% 0 because it's 100% away from the first point in the x direction (ie going right)*/
+/*(contd) the third point is the one we want to clip, this is still 100% away from the first point in x direction, but we we don't want to go down y 100% becuase we want it to be shorter to create the clipped look. So we can make it 75% for example- but it's best to use vh so that you can choose what % of the viewport height it will take up, it will change dynamically as thewindow height is changed*/
+/*(contd) the last point is the bottom left, this one is 0 away in x direction as it's directly below it, but 100% away in y*/
+/*you can use bennettfeely.com/clippy to see some harder examples and the css*/
+
+.logo-box{
+  position: absolute;
+  top: 40px; /* the reference for this is the parent element (the header) that is set to position:relative- so it starts to count 40px from the header it's inside*/
+  left: 40px;
+}
+
+.logo{
+  height: 35px;
+}
+
+.text-box{
+  position: absolute; /*we have to be careful: you might think that 50% top and left will center it, but actually, this will center the left edge of the text box and not the middle of the text box!! */
+  top:40%; /*shift 40% from the top, counting from the parent element (the header) */
+  left:50%;
+  transform: translate(-50%, -50%); /*we use transofrm trnaslate to tell it to shift it 50% of its own height and width so that position absolute will work properly- so this is in realtion to itself and NOT the parent element */
+  text-align: center; /*This is the simplest way to ensure our button (which is a text link formatted as a button) will sit in the middle of the page!*/
+}
+
+.heading-primary{
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden; /*The animation makes the title shake upwards a little, it's not v noticable and no-one really knows why it happens, but this css will fix it! This is usually used if you're eg. rotating an element, the back part of the element will be have visible. You can use this to stop that from happening */
+  margin-bottom: 60px;/*adds some whitespace between the h1 and the button*/
+}
+
+.heading-primary-main{
+    display: block; /* using this on the spans so that they'll stack on top of one another rather than being side by side*/
+    font-size: 60px;
+    font-weight: 400;
+    letter-spacing: 35px; /*gives it a nice outdoorsy open look as the letters are v far apart*/
+    animation-name: moveInLeft;
+    animation-duration: 1.5s; /*you call the animation with animation name, and then give it a duration to last over */
+    animation-timing-function: ease-out; /* makes the animation start faster and get slower*/
+    /* for ease, this can also be written as..
+    animation: moveInLeft 1.5s ease-out;
+    */
+
+    /*
+    animation-delay: 1s; allows an animation to start later after the page has loaded
+    animation-iteration-count: 3; allows you to keep repeating an animation for the number fo times you type in
+    animation-timing-function: ease-in; makes the animation start more slowly and speed up (there are lots of other options for this that you can look up)
+    */
+}
+
+.heading-primary-sub{
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 17.4px;
+    animation-name: moveInRight;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes moveInLeft{ /*best to only animate 2 properties for browser performance */
+    0%{ /*what it will be doing before the animation starts */
+        opacity:0; /*ensure it starts off invisible*/
+        transform: translateX(-100px); /*we want to aniimate in the x direction, so it's moving in from the left, this is setting our start position. Because we want it to start form the left, we have to give it a negative value */
+    }
+
+    80%{
+        opacity:0.8;
+        transform: translateX(15px); /*make it kind of bouce to the right a little 80% through the animation before it settles in the middle*/
+    }
+
+    100%{ /*what is will be doing when the animation finishes*/
+        opacity:1;
+        transform: translate(0); /*we use translate 0 so that it'll go to what we've set it to be in teh css above*/
+    }
+}
+
+@keyframes moveInRight{
+    0%{
+        opacity:0;
+        transform: translateX(100px);/* you can also use things like rotate etc.*/
+    }
+
+    80%{
+        opacity:0.8;
+        transform: translateX(-15px);
+    }
+
+    100%{
+        opacity:1;
+        transform: translate(0);
+    }
+}
+
+/*Stuff for the Button in the header*/
+
+.btn:link,
+.btn:visited{ /*Because the button is also a link, we need to use btn:link, link is a pseudoclass here, which means its a special state of the selector, so link is the state of the button. we use them to style elements under a special condition, such as :hover or :visited*/
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+  display: inline-block;/*ALWAYS do this if you're going to give an element padding, a width or height. This allows the box model to treat is as a normal block element rather than inline text*/
+  border-radius:50px;
+  transition: all .2s; /*Can use this for our simple up and down button animation rather than keyframes, it'll just give a nice transition to our transformations so it looks smooth and less abrupt. It isn't really intuitive that it has to be in the initial state rather than the animated state (eg. btn:hover), but that's just the way it is so get over it*/
+  position: relative;
+}
+
+.btn-white{
+  background-color: white;
+  color:#777;
+}
+
+.btn:hover{
+  transform:translateY(-3px);/*So that the button will go up a small bit when you hover on it*/
+  box-shadow: 0 10px 20px rgba(0,0,0,.2); /*This is doing x y blur,a nd then the colour- so we want no shadow in the x direction, 10px of shadow in y direction, and for it to be quite blurry. making the opacity 0.2 makes it more subtle*/
+}
+
+.btn:active{ /*when it is being clicked*/
+  transform: translateY(-1px); /*This is moving it from its default START position, not where it is when you're hovering over it, so it will actually appear to go down 2px when you hover then press*/
+  box-shadow: 0 5px 10px rgba(0,0,0,.4); /*We're making it a smaller and less blurry shadow so that it looks like the button had been pushed down*/
+}
+
+.btn::after{ /*here you're specifying something that comes after your element. we add an element exactly like the button we already have, but we put it behind the button, when we hover out of the button, the hidden pseudoelement goes back behind the button*/
+  content: "";/*we HAVE to specify a content property, even if it's empty as it is here*/
+  display: inline-block; /*also HAVE to specify display- here we're choosing inline block as our button is already inline block*/
+  height: 100%;
+  width: 100%; /*the after pseudoelement's parent is the button, which is why theight and and width of 100% works!*/
+  border-radius: 50px;
+  position: absolute; /*This allows us to hide it behind our button so it doens't look weird anymore*/
+  top: 0; /*we can use top and left 0 because it's realtive to the button- the button is the parent as it's the 'last' thing its in  with a relative position*/
+  left: 0;
+  z-index: -1; /*this ensures the after element is behind the button*/
+  transition: all .4s; /*this is the initial state for btn:hover::after, so this is making the transition nice for the after pseudoelement hover animation*/
+}
+
+.btn-white::after{
+  background-color: #fff; /*I orginally forgot this- it didn't work because the pseudoelement was invisible because it didn't have a background colour*/
+}
+
+.btn:hover::after{ /*here we're telling it what to do with the after pseudo element when it's hovered over*/
+  transform:scale(1.4, 1.8); /*changes the size of the element, so here on hover it becomes 1.5x the size, you can put a comma between 2 numbers if you want it to get bigger in y direction than x for example*/
+  opacity: 0; /*opacity must be 0 to make it fade out and give it the look of the button kind of getting bigger and fading out sort of*/
+}
+
+@keyframes moveInBottom{
+    0%{
+        opacity:0;
+        transform: translateY(100px);/* you can also use things like rotate etc.*/
+    }
+
+    100%{
+        opacity:1;
+        transform: translate(0);
+    }
+}
+
+.btn-animated{
+  animation: moveInBottom .5s ease-out .75s; /*calls our moveInBottom animation so that the button AND its after pseudoelement come in from the bottom and fade in after .75 seconds- we have this in a new class to ensure it only happens to this button and not other buttons*/
+  animation-fill-mode: backwards; /*this is nifty!! it applies the 0% animation state (ie opacity of 0) before the animation starts, so we can't see it for the .75s delay before it animates!*/
+}
