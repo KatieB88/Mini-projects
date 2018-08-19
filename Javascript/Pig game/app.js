@@ -58,8 +58,8 @@ document.querySelector('.btn-new').addEventListener('click', function(){
 	scores = [0,0];
 	roundScore = [0,0];
 	activePlayer = 0;
-	document.querySelector('.player-1-panel').classList.toggle('active');
-	document.querySelector('.player-0-panel').classList.toggle('active');
+	document.querySelector('.player-0-panel').classList.add('active');
+	document.querySelector('.player-1-panel').classList.remove('active');
 	document.querySelector('#score-' + activePlayer).style.fontSize = "81px";
 	document.querySelector('.btn-roll').style.display = 'block';
 	document.querySelector('.btn-hold').style.display = 'block';
